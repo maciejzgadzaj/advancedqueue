@@ -1,0 +1,16 @@
+description: 'Deletes a queue item..'
+help: |
+  The <info>advancedqueue:item:delete</info> command deletes a queue item.
+
+  Deletion mode depends on specific queue worker settings (<comment>delete.hard</comment> in queue worker definition), and could be either <comment>soft</comment> (deleted items will be kept in the database, just marked as processed) or <comment>hard</comment> (items will be permanently removed from the database). This setting could be overriden by using the <info>--hard</info> option.
+
+  <comment>Examples:</comment>
+    <info>drupal aqid 12</info>                  Deletes item ID <comment>12</comment>.
+    <info>drupal aqid 21,25-27,31 --hard</info>  Hard-deletes item IDs <comment>21, 25, 26, 27 and 31</comment>. The items will be permanently removed from the database, regardless of queue worker settings.
+arguments:
+    item_id: 'ID of the item to delete. Either a single ID, a range, or a comma-separated list.'
+options:
+    hard: 'Hard delete items (permanently remove them from the database) regardless of queue worker settings.'
+messages:
+    confirm: 'Are you sure you want to permanently delete the following items: %s?'
+    item_deleted: '%s-deleted item %d from queue "%s".'

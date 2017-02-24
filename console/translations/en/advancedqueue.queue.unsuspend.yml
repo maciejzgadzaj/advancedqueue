@@ -1,0 +1,12 @@
+description: 'Unsuspends processing of a suspended queue.'
+help: |
+  The <info>advancedqueue:queue:unsuspend</info> command unsuspends processing of a suspended queue.
+
+  <comment>Examples:</comment>
+    <info>drupal aqqu all</info>                Unsuspends processing of all defined queues.
+    <info>drupal aqqu mygroup</info>            Unsuspends processing of all defined queues belonging to <comment>mygroup</comment> group.
+    <info>drupal aqqu mygroup1,mygroup2</info>  Unsuspends processing of all defined queues belonging to <comment>mygroup1</comment> or <comment>mygroup2</comment> group.
+arguments:
+    queues: 'Queues or queue groups to unsuspend processing of. Either a single name, a comma-separated list or <info>all</info>.'
+messages:
+    queue_unsuspended: 'Unsuspended processing of <info>%s</info> queue.'

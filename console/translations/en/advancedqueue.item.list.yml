@@ -1,0 +1,24 @@
+description: 'Lists unprocessed items.'
+help: |
+  The <info>advancedqueue:list:items</info> command lists unprocessed items.
+
+  <comment>Examples:</comment>
+    <info>drupal aqil</info>                    Lists unprocessed items in all defined queues. Equivalent to <info>drush aqil all</info>.
+    <info>drupal aqil mygroup</info>            Lists unprocessed items in all defined queues belonging to <comment>mygroup</comment> group.
+    <info>drupal aqil mygroup1,mygroup2</info>  Lists unprocessed items in all defined queues belonging to <comment>mygroup1</comment> or <comment>mygroup2</comment> group.
+    <info>drupal aqil all --all</info>          Lists both processed and unprocessed items in all defined queues.
+    <info>drupal aqil --pipe</info>             Lists unprocessed items in all defined queues in a comma-separated format.
+arguments:
+    queues: 'Queues or queue groups to list items for. Either a single name, a comma-separated list or <info>all</info>.'
+options:
+    all: 'List all items, both processed and unprocessed.'
+    processed: 'List processed items instead of unprocessed.'
+    pipe: 'Return a comma delimited list of items.'
+header:
+    queue: 'Queue'
+    item_id: 'Item ID'
+    title: 'Title'
+    status: 'Status'
+    attempts: 'Attempts'
+    processed: 'Processed'
+    result: 'Result'
