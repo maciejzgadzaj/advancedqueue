@@ -1,0 +1,107 @@
+<?php
+
+/**
+ * @file
+ * Install, update and uninstall functions for the AdvancedQueue module.
+ */
+
+/**
+ * Implements hook_schema().
+ */
+function advancedqueue_schema() {
+
+  $schema['advancedqueue'] = [
+    'description' => 'Stores items in queues.',
+    'fields' => [
+      'item_id' => [
+        'type' => 'serial',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'Primary Key: Unique item ID.',
+      ],
+      'item_key' => [
+        'type' => 'varchar',
+        'length' => 150,
+        'not null' => FALSE,
+        'description' => 'The unique key of the queue item, if any.',
+      ],
+      'name' => [
+        'type' => 'varchar',
+        'length' => 255,
+        'not null' => TRUE,
+        'default' => '',
+        'description' => 'The queue name.',
+      ],
+      'uid' => [
+        'type' => 'int',
+        'type' => 'int',
+        'unsigned' => TRUE,
+        'not null' => TRUE,
+        'description' => 'The user to which the item belongs.',
+      ],
+      'title' => [
+        'type' => 'varchar',
+        'length' => 400,
+        'not null' => TRUE,
+        'description' => 'The title of this item.',
+      ],
+      'created' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when the item was created.',
+      ],
+      'status' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => -1,
+        'size' => 'tiny',
+        'description' => 'Indicates whether the item has been processed (-1 = queue, 0 = processing, 1 = successfully processed, 2 = failed).',
+      ],
+      'data' => [
+        'type' => 'blob',
+        'not null' => FALSE,
+        'size' => 'big',
+        'serialize' => TRUE,
+        'description' => 'The arbitrary data for the item.',
+      ],
+      'expire' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when the claim lease expires on the item.',
+      ],
+      'processed' => [
+        'type' => 'int',
+        'not null' => TRUE,
+        'default' => 0,
+        'description' => 'Timestamp when the item was processed.',
+      ],
+      'result' => [
+        'type' => 'blob',
+        'not null' => FALSE,
+        'size' => 'big',
+        'serialize' => TRUE,
+        'description' => 'The arbitrary result for the item, only significant if {advancedqueue}.status <> 0',
+      ],
+    ],
+    'primary key' => ['item_id'],
+    'unique keys' => [
+      'item_key' => ['item_key'],
+    ],
+    'indexes' => [
+      'name' => ['name'],
+      'created' => ['created'],
+      'status' => ['status'],
+      'expire' => ['expire'],
+    ],
+    'foreign keys' => [
+      'uid' => [
+        'table' => 'users',
+        'columns' => ['uid' => 'uid'],
+      ],
+    ],
+  ];
+
+  return $schema;
+}
