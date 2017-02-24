@@ -1,0 +1,7 @@
+description: 'Runs a processing job for a queue item.'
+help: 'The <info>advancedqueue:item:process</info> command runs a processing job for a queue item.'
+arguments:
+    item_id: 'ID of the item to process. Either a single ID, or a comma-separated list.'
+messages:
+    processing_item_start: '[%s:%d] Starting processing item "%s".'
+    processing_item_end: '[%s:%d] Processing ended with result %d (%s).'

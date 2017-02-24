@@ -1,0 +1,9 @@
+description: 'Deletes a queue item..'
+help: 'The <info>advancedqueue:item:delete</info> command deletes a queue item.'
+arguments:
+    item_id: 'ID of the item to delete. Either a single ID, or a comma-separated list.'
+options:
+    hard: 'Hard delete items (permanently remove them from the database) regardless of queue worker settings.'
+messages:
+    confirm: 'Are you sure you want to permanently delete the following items: %s?'
+    item_deleted: '%s-deleted item %d from queue "%s".'

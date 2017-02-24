@@ -1,0 +1,9 @@
+description: 'Deletes all items from a queue.'
+help: 'The <info>advancedqueue:queue:delete</info> command deletes all items from a queue.'
+arguments:
+    queues: 'Queues or queue groups to delete items from. Either a single name, a comma-separated list or "all".'
+options:
+    hard: 'Hard delete items (permanently remove them from the database) regardless of queue worker settings.'
+messages:
+    confirm: 'Are you sure you want to permanently delete all items from the following queues: %s?'
+    items_deleted: '%s-deleted %d items from queue "%s".'

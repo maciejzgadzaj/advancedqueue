@@ -1,0 +1,6 @@
+description: 'Releases a claimed queue item.'
+help: 'The <info>advancedqueue:item:release</info> command releases a claimed queue item.'
+arguments:
+    item_id: 'ID of the item to release. Either a single ID, or a comma-separated list.'
+messages:
+    item_released: 'Released item %d in queue "%s".'

@@ -1,0 +1,6 @@
+description: 'Requeues a queue item.'
+help: 'The <info>advancedqueue:item:requeue</info> command requeues a queue item.'
+arguments:
+    item_id: 'ID of the item to requeue. Either a single ID, or a comma-separated list.'
+messages:
+    item_requeued: 'Requeued item %d in queue "%s".'

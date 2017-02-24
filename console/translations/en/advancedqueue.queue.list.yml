@@ -1,0 +1,17 @@
+description: 'Lists all defined queues and summary of queue items.'
+arguments:
+    queues: 'Queues or queue groups to list. Either a single name, a comma-separated list or "all".'
+options:
+    all: 'Return extended summary of queues and queue items.'
+    pipe: 'Return a comma delimited list of queues.'
+header:
+    queue: 'Queue'
+    machine_name: 'Machine name'
+    items: 'Items'
+    status:
+        -1: 'Queued'
+        0: 'Processing'
+        1: 'Processed'
+        2: 'Failed'
+        3: 'Retry'
+    class: 'Class'
