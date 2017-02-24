@@ -1,0 +1,16 @@
+description: 'Lists unprocessed items.'
+help: 'The <info>advancedqueue:list:items</info> command lists unprocessed items.'
+arguments:
+    queues: 'Queues or queue groups to list items for. Either a single name, a comma-separated list or "all".'
+options:
+    all: 'List all items, both processed and unprocessed.'
+    processed: 'List processed items instead of unprocessed.'
+    pipe: 'Return a comma delimited list of items.'
+header:
+    queue: 'Queue'
+    item_id: 'Item ID'
+    title: 'Title'
+    status: 'Status'
+    attempts: 'Attempts'
+    processed: 'Processed'
+    result: 'Result'

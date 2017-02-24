@@ -1,0 +1,6 @@
+description: 'Requeues a queue item.'
+help: "The <info>advancedqueue:item:requeue</info> command requeues a queue item.\n\nThis operation will unset item's claim expiration time and update its status to \"queued\" (unless item's current status is \"retry\", in which case it will be left unchanged)."
+arguments:
+    item_id: 'ID of the item to requeue. Either a single ID, or a comma-separated list.'
+messages:
+    item_requeued: 'Requeued item %d in queue "%s".'

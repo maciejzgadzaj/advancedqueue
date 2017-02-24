@@ -1,0 +1,12 @@
+description: 'Runs a processing job for a queue.'
+help: 'The <info>advancedqueue:queue:process</info> command runs a processing job for a queue.'
+arguments:
+    queues: 'Queues or queue groups to process. Either a single name, a comma-separated list or "all".'
+options:
+    timeout: 'The maximum execution time of the script. Be warned that this is a rough estimate as the time is only checked between two items.'
+messages:
+    cleanup: 'Cleanup processed and stale items.'
+    processing_loop_start: 'Starting processing loop.'
+    processing_item_start: '[%s:%d] Starting processing item "%s".'
+    processing_item_end: '[%s:%d] Processing ended with result %d (%s).'
+    processing_loop_end: 'Timeout: exiting processing loop.'

@@ -1,0 +1,37 @@
+services:
+  advancedqueue.advancedqueue_queue_list:
+    class: Drupal\advancedqueue\Command\QueueListCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_item_list:
+    class: Drupal\advancedqueue\Command\ItemListCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_queue_process:
+    class: Drupal\advancedqueue\Command\QueueProcessCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_item_process:
+    class: Drupal\advancedqueue\Command\ItemProcessCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_item_release:
+    class: Drupal\advancedqueue\Command\ItemReleaseCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_item_requeue:
+    class: Drupal\advancedqueue\Command\ItemRequeueCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_item_reset:
+    class: Drupal\advancedqueue\Command\ItemResetCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_queue_delete:
+    class: Drupal\advancedqueue\Command\QueueDeleteCommand
+    tags:
+      - { name: drupal.command }
+  advancedqueue.advancedqueue_item_delete:
+    class: Drupal\advancedqueue\Command\ItemDeleteCommand
+    tags:
+      - { name: drupal.command }

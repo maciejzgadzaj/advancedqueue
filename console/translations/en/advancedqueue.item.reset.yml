@@ -1,0 +1,6 @@
+description: 'Resets the attempt counter for a queue item.'
+help: 'The <info>advancedqueue:item:reset</info> command resets the attempt counter for a queue item.'
+arguments:
+    item_id: 'ID of the item to reset the attempt counter for. Either a single ID, or a comma-separated list.'
+messages:
+    counter_reset: 'Reset attempt counter for item %d in queue "%s".'
