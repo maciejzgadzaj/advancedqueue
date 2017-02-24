@@ -1,0 +1,5 @@
+advancedqueue_example:
+  title: Test
+  route_name: advancedqueue_example
+  parent: advancedqueue_ui.queues
+  weight: 100

@@ -1,0 +1,9 @@
+advancedqueue_example:
+  path: 'examples/advancedqueue_example'
+  defaults:
+    _title: 'AdvancedQueue Example'
+    _form: '\Drupal\advancedqueue_example\Forms\AdvancedQueueExampleForm'
+  options:
+    _admin_route: TRUE
+  requirements:
+    _permission: 'access content'
