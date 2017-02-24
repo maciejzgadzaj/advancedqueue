@@ -1,0 +1,21 @@
+advancedqueue_pre_execute:
+  label: 'Before processing a queue item'
+  category: 'Advancedqueue'
+  context:
+    queue_name:
+      type: 'text'
+      label: 'Queue name'
+    item:
+      type: 'entity:advancedqueue_item'
+      label: 'Queue item'
+
+advancedqueue_post_execute:
+  label: 'After processing a queue item'
+  category: 'Advancedqueue'
+  context:
+    queue_name:
+      type: 'text'
+      label: 'Queue name'
+    item:
+      type: 'entity:advancedqueue_item'
+      label: 'Queue item'

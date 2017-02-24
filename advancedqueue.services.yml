@@ -1,0 +1,4 @@
+services:
+  queue.advancedqueue:
+    class: Drupal\advancedqueue\Queue\AdvancedQueueFactory
+    arguments: ['@database', '@event_dispatcher', '@plugin.manager.queue_worker']
