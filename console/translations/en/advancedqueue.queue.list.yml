@@ -1,0 +1,26 @@
+description: 'Lists all defined queues and summary of queue items.'
+help: |
+  The <info>advancedqueue:queue:list</info> command lists all defined queues and summary of queue items.
+
+  <comment>Examples:</comment>
+    <info>drupal aqql</info>                    Lists all defined queues and their basic summary (number of unprocessed items for each queue (<comment>queued</comment> + <comment>processing</comment> + <comment>retry</comment>)). Equivalent to <info>drush aqql all</info>.
+    <info>drupal aqql mygroup</info>            Lists all defined queues belonging to <comment>mygroup</comment> group.
+    <info>drupal aqql mygroup1,mygroup2</info>  Lists all defined queues belonging to <comment>mygroup1</comment> or <comment>mygroup2</comment> group.
+    <info>drupal aqql all --all</info>          Lists all defined queues split into groups and their extended summary (number of items in each status).
+    <info>drupal aqql --pipe</info>             Lists all defined queues in a comma-separated format.
+arguments:
+    queues: 'Queues or queue groups to list. Either a single name, a comma-separated list or <info>all</info>.'
+options:
+    all: 'Return extended summary of queues and queue items.'
+    pipe: 'Return a comma delimited list of queues.'
+header:
+    queue: 'Queue'
+    machine_name: 'Machine name'
+    items: 'Items'
+    status:
+        -1: 'Queued'
+        0: 'Processing'
+        1: 'Processed'
+        2: 'Failed'
+        3: 'Retry'
+    class: 'Class'

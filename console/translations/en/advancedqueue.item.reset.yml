@@ -1,0 +1,11 @@
+description: 'Resets the attempt counter for a queue item.'
+help: |
+  The <info>advancedqueue:item:reset</info> command resets the attempt counter for a queue item.
+
+  <comment>Examples:</comment>
+    <info>drupal aqires 12</info>           Resets attempt counter for item ID <comment>12</comment>.
+    <info>drupal aqires 21,25-27,31</info>  Resets attempt counter for item IDs <comment>21, 25, 26, 27 and 31</comment>.
+arguments:
+    item_id: 'ID of the item to reset the attempt counter for. Either a single ID, a range, or a comma-separated list.'
+messages:
+    counter_reset: 'Reset attempt counter for item <info>%d</info> in queue <info>%s</info>.'

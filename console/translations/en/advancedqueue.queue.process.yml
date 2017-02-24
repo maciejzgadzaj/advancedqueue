@@ -1,0 +1,19 @@
+description: 'Runs a processing job for a queue.'
+help: |
+  The <info>advancedqueue:queue:process</info> command runs a processing job for a queue.
+
+  <comment>Examples:</comment>
+    <info>drupal aqqp all</info>                Runs a processing job for all defined queues.
+    <info>drupal aqqp mygroup</info>            Runs a processing job for all defined queues belonging to <comment>mygroup</comment> group.
+    <info>drupal aqqp mygroup1,mygroup2</info>  Runs a processing job for all defined queues belonging to <comment>mygroup1</comment> or <comment>mygroup2</comment> group.
+    <info>drupal aqqp all --timeout=30</info>   Runs a processing job for all defined queues and exits after <comment>30</comment> seconds.
+arguments:
+    queues: 'Queues or queue groups to process. Either a single name, a comma-separated list or <info>all</info>.'
+options:
+    timeout: 'The maximum execution time of the script. Be warned that this is a rough estimate as the time is only checked between two items.'
+messages:
+    cleanup: 'Cleanup processed and stale items.'
+    processing_loop_start: 'Starting processing loop.'
+    processing_item_start: '[<comment>%s:%d</comment>] Starting processing item <info>%s</info>.'
+    processing_item_end: '[<comment>%s:%d</comment>] Processing ended with result <info>%d</info> (<info>%s</info>).'
+    processing_loop_end: 'Timeout: exiting processing loop.'

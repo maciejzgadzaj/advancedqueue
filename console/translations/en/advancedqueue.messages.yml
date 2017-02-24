@@ -1,0 +1,7 @@
+user_aborted: 'Aborted.'
+errors:
+    no_queues_exist: 'No queues exist. Aborting.'
+    empty_names_argument: 'You have to provide either a valid queue name or group name or "all" value. Aborting.'
+    invalid_name: 'The name "%s" is invalid. It should be either a valid queue name or group name or "all" value. Aborting.'
+    no_queues_to_work_with: 'We could not find any valid queues matching your argument. Aborting.'
+    failed_loading_items: 'Failed to load following items for selected operation: %s. Aborting.'

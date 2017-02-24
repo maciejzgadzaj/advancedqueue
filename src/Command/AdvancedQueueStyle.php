@@ -4,19 +4,40 @@ namespace Drupal\advancedqueue\Command;
 
 use Drupal\Console\Core\Style\DrupalStyle;
 use Symfony\Component\Console\Formatter\OutputFormatterStyle;
+use Symfony\Component\Console\Input\InputInterface;
+use Symfony\Component\Console\Output\OutputInterface;
 
 /**
- * Class CommandStyle.
+ * Class AdvancedQueueStyle.
  *
  * @package Drupal\advancedqueue
  */
-class CommandStyle {
+class AdvancedQueueStyle extends DrupalStyle {
 
   /**
-   * @param \Symfony\Component\Console\Output\ConsoleOutputInterface $output
+   * @param InputInterface $input
+   * @param OutputInterface $output
    */
-  public static function addStatusStyles($output) {
+  public function __construct(InputInterface $input, OutputInterface $output) {
+    parent::__construct($input, $output);
+    self::addStatusStyles($output);
+  }
+
+  /**
+   * Defines item status-specific display styles.
+   *
+   * Defined as static as it is also used by Drush commands.
+   *
+   * @param OutputInterface $output
+   *
+   * @see drush_advancedqueue_item_list()
+   */
+  public static function addStatusStyles(OutputInterface $output) {
     $formatter = $output->getFormatter();
+
+    // Group name.
+    $style = new OutputFormatterStyle('green', NULL, ['bold']);
+    $formatter->setStyle('group-name', $style);
 
     // Status: Queued.
     $style = new OutputFormatterStyle('white');

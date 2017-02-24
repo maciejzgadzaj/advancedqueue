@@ -1,0 +1,13 @@
+description: 'Requeues a queue item.'
+help: |
+  The <info>advancedqueue:item:requeue</info> command requeues a queue item.
+
+  This operation will unset item's claim expiration time and update its status to <comment>queued</comment> (unless item's current status is <comment>retry</comment>, in which case it will be left unchanged).
+
+  <comment>Examples:</comment>
+    <info>drupal aqireq 12</info>           Requeues item ID <comment>12</comment>.
+    <info>drupal aqireq 21,25-27,31</info>  Requeues item IDs <comment>21, 25, 26, 27 and 31</comment>.
+arguments:
+    item_id: 'ID of the item to requeue. Either a single ID, a range, or a comma-separated list.'
+messages:
+    item_requeued: 'Requeued item <info>%d</info> in queue <info>%s</info>.'

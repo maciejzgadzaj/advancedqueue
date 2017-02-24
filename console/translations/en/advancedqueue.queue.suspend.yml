@@ -1,0 +1,15 @@
+description: 'Suspends processing of a queue.'
+help: |
+  The <info>advancedqueue:queue:suspend</info> command suspends processing of a queue.
+
+  <comment>Examples:</comment>
+    <info>drupal aqqs all</info>                Suspends processing of all defined queues.
+    <info>drupal aqqs mygroup</info>            Suspends processing of all defined queues belonging to <comment>mygroup</comment> group.
+    <info>drupal aqqs mygroup1,mygroup2</info>  Suspends processing of all defined queues belonging to <comment>mygroup1</comment> or <comment>mygroup2</comment> group.
+    <info>drupal aqqs all --time=3600</info>    Suspends processing of all defined queues for <comment>1 hour</comment>.
+arguments:
+    queues: 'Queues or queue groups to suspend processing of. Either a single name, a comma-separated list or <info>all</info>.'
+options:
+    timeout: 'The time in seconds to suspend processing for.'
+messages:
+    queue_suspended: 'Suspended processing of <info>%s</info> queue for <info>%s</info>.'
