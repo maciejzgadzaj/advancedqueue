@@ -5,3 +5,12 @@ advancedqueue.settings:
     _title: 'AdvancedQueue'
   requirements:
     _permission: 'administer site configuration'
+
+entity.advancedqueue_item.canonical:
+  path: '/admin/structure/queues/{queue_name}/{advancedqueue_item}'
+  defaults:
+    _entity_view: 'advancedqueue_item'
+    _title: 'Advanced Queue Item'
+    queue_name: 'all'
+  requirements:
+    _entity_access: 'advancedqueue_item.view'
