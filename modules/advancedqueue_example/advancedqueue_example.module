@@ -1,0 +1,23 @@
+<?php
+
+/**
+ * @file
+ * Example module for Advanced Queues module.
+ */
+
+use Drupal\Core\Url;
+
+/**
+ * Implements hook_toolbar_alter().
+ */
+function advancedqueue_example_toolbar_alter(&$items) {
+  if (!empty($items['examples'])) {
+    $items['examples']['tray']['shortcuts']['#links']['advancedqueue_example'] = [
+      'title' => t('AdvancedQueue example'),
+      'url' => Url::fromRoute('advancedqueue_example'),
+      'options' => [
+        'title' => t('Examples of using AdvancedQueue.'),
+      ],
+    ];
+  }
+}

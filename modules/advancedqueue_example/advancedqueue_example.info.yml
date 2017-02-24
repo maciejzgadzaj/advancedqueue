@@ -1,0 +1,7 @@
+name: Advanced Queue Example
+description: Example module for Advanced Queue module.
+package: Other
+core: 8.x
+type: module
+dependencies:
+  - advancedqueue
