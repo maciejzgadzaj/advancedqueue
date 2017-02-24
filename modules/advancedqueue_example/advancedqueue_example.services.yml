@@ -1,0 +1,6 @@
+services:
+  advancedqueue_example.event_subscriber:
+    class: Drupal\advancedqueue_example\EventSubscriber\ExampleEventSubscriber
+    arguments: []
+    tags:
+      - { name: event_subscriber }
