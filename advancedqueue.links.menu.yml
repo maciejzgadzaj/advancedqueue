@@ -1,0 +1,5 @@
+advancedqueue_settings:
+  title: AdvancedQueue
+  description: 'Advanced queue processing configuration.'
+  route_name: advancedqueue.settings
+  parent: system.admin_config_system

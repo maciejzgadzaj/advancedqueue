@@ -1,0 +1,7 @@
+advancedqueue.settings:
+  path: '/admin/config/system/advancedqueue'
+  defaults:
+    _form: '\Drupal\advancedqueue\Form\SettingsForm'
+    _title: 'AdvancedQueue'
+  requirements:
+    _permission: 'administer site configuration'
