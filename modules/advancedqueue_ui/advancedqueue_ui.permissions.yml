@@ -1,0 +1,8 @@
+advancedqueue_ui view queues:
+  title: 'View queues'
+  description: 'Allow users to access Advanced Queue UI pages to view queues and queue items.'
+
+advancedqueue_ui manage queues:
+  title: 'Manage queues'
+  description: 'Allow users to perform actions on queues and queue items.'
+  restrict access: TRUE

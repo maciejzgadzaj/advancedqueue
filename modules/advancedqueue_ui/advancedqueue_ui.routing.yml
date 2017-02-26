@@ -1,0 +1,31 @@
+advancedqueue_ui.queues:
+  path: '/admin/structure/queues'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::queueList'
+    _title: 'Queues'
+  requirements:
+    _permission: 'advancedqueue_ui view queues'
+
+advancedqueue_ui.all_items:
+  path: '/admin/structure/queues/all'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItems'
+    _title: 'All items'
+  requirements:
+    _permission: 'advancedqueue_ui view queues'
+
+advancedqueue_ui.queue.items:
+  path: '/admin/structure/queues/{queue_name}'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItems'
+    _title_callback: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItemsTitle'
+  requirements:
+    _permission: 'advancedqueue_ui view queues'
+
+advancedqueue_ui.queue.devel:
+  path: '/admin/structure/queues/{queue_name}/devel'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::develQueue'
+    _title_callback: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItemsTitle'
+  requirements:
+    _permission: 'access devel information'

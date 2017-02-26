@@ -1,0 +1,8 @@
+advancedqueue_ui.queue_list:
+  css:
+    component:
+      css/queue-list.css: {}
+advancedqueue_ui.item_list:
+  css:
+    component:
+      css/item-list.css: {}
