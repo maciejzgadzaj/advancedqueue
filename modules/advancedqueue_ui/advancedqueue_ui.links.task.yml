@@ -1,0 +1,40 @@
+# Queues page
+
+advancedqueue_ui.queues:
+  route_name: advancedqueue_ui.queues
+  title: 'Queues'
+  description: 'View and manage Advanced Queue queues and items.'
+  base_route: advancedqueue_ui.queues
+
+advancedqueue_ui.all_items:
+  route_name: advancedqueue_ui.all_items
+  title: 'Items'
+  base_route: advancedqueue_ui.queues
+  weight: 1
+
+advancedqueue_ui.settings:
+  route_name: advancedqueue.settings
+  title: 'Settings'
+  base_route: advancedqueue_ui.queues
+  weight: 10
+
+# Queue items page
+
+advancedqueue_ui.queue.items:
+  route_name: advancedqueue_ui.queue.items
+  title: 'Items'
+  base_route: advancedqueue_ui.queue.items
+
+advancedqueue_ui.queue.devel:
+  route_name: advancedqueue_ui.queue.devel
+  title: 'Devel'
+  base_route: advancedqueue_ui.queue.items
+  weight: 1
+
+# Queue item page
+
+advancedqueue_ui.item:
+  route_name: entity.advancedqueue_item.canonical
+  title: 'Item'
+  base_route: entity.advancedqueue_item.canonical
+

@@ -1,0 +1,7 @@
+name: Advanced Queue UI
+description: Admin user interface for the Advanced Queue module.
+package: Other
+core: 8.x
+type: module
+dependencies:
+  - advancedqueue

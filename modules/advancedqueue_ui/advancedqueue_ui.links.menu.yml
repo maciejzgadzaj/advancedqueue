@@ -1,0 +1,17 @@
+advancedqueue_ui.queues:
+  route_name: advancedqueue_ui.queues
+  title: 'Queues'
+  description: 'View and manage Advanced Queue queues and items.'
+  parent: system.admin_structure
+
+advancedqueue_ui.all_items:
+  route_name: advancedqueue_ui.all_items
+  title: 'Items'
+  description: 'View and manage all queue items.'
+  parent: advancedqueue_ui.queues
+
+advancedqueue_ui.settings:
+  route_name: advancedqueue.settings
+  title: 'Settings'
+  description: 'Advanced queue processing configuration.'
+  parent: advancedqueue_ui.queues

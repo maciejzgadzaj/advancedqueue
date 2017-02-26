@@ -1,0 +1,4 @@
+<?php
+
+// Always load all advancedqueue module views hooks.
+require_once __DIR__ . '/advancedqueue_ui.views.inc';

@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - advancedqueue_ui
+  # Delete action when the module is uninstalled.
+  enforced:
+    module:
+      - advancedqueue_ui
+id: item_process_action
+label: 'Process item'
+type: advancedqueue_item
+plugin: item_process_action
+configuration: {  }
