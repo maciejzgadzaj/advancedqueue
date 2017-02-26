@@ -1,0 +1,98 @@
+advancedqueue_ui.queues:
+  path: '/admin/structure/queues'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::queueList'
+    _title: 'Queues'
+  requirements:
+    _permission: 'advancedqueue_ui view queues'
+
+advancedqueue_ui.all_items:
+  path: '/admin/structure/queues/all'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItems'
+    _title: 'All items'
+  requirements:
+    _permission: 'advancedqueue_ui view queues'
+
+advancedqueue_ui.queue.items:
+  path: '/admin/structure/queues/{queue_name}'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItems'
+    _title_callback: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItemsTitle'
+  requirements:
+    _permission: 'advancedqueue_ui view queues'
+
+advancedqueue_ui.queue.devel:
+  path: '/admin/structure/queues/{queue_name}/devel'
+  defaults:
+    _controller: '\Drupal\advancedqueue_ui\Controller\AdminController::develQueue'
+    _title_callback: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItemsTitle'
+  requirements:
+    _permission: 'access devel information'
+
+# Bulk queue operations.
+
+advancedqueue_ui.bulk_queue_process_confirm:
+  path: '/admin/structure/queues/{queue_name}/process'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkQueueProcess'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_queue_delete_confirm:
+  path: '/admin/structure/queues/{queue_name}/delete'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkQueueDelete'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_queue_suspend_confirm:
+  path: '/admin/structure/queues/{queue_name}/suspend'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkQueueSuspend'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_queue_unsuspend_confirm:
+  path: '/admin/structure/queues/{queue_name}/unsuspend'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkQueueUnsuspend'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+# Bulk item operations.
+
+advancedqueue_ui.bulk_item_process_confirm:
+  path: '/admin/structure/queues/all/process'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkItemProcess'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_item_release_confirm:
+  path: '/admin/structure/queues/all/release'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkItemRelease'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_item_requeue_confirm:
+  path: '/admin/structure/queues/all/requeue'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkItemRequeue'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_item_reset_confirm:
+  path: '/admin/structure/queues/all/reset'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkItemReset'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_item_delete_confirm:
+  path: '/admin/structure/queues/all/delete'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkItemDelete'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'

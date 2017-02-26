@@ -1,0 +1,14 @@
+langcode: en
+status: true
+dependencies:
+  module:
+    - advancedqueue_ui
+  # Delete action when the module is uninstalled.
+  enforced:
+    module:
+      - advancedqueue_ui
+id: item_release_action
+label: 'Release item'
+type: advancedqueue_item
+plugin: item_release_action
+configuration: {  }

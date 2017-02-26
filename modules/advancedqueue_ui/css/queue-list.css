@@ -1,0 +1,33 @@
+#advancedqueue_ui_queues .group-name,
+#advancedqueue_ui_queues .group-operations {
+    font-weight: bold;
+}
+#advancedqueue_ui_queues .queue-in-group,
+#advancedqueue_ui_queues .queue-operations {
+    padding-left: 2em;
+}
+#advancedqueue_ui_queues .queue-suspended {
+    display: inline;
+    margin-left: 1em;
+    font-weight: bold;
+    color: #ff0000;
+}
+#advancedqueue_ui_queues .queue-suspended-time {
+    display: inline;
+    margin-left: .5em;
+    font-size: .8em;
+    color: #ff0000;
+}
+
+#advancedqueue_ui_queues .queue-item-count-1 a {
+    color: #336633;
+    font-weight: bold;
+}
+#advancedqueue_ui_queues .queue-item-count-2 a {
+    color: #ff0000;
+    font-weight: bold;
+}
+#advancedqueue_ui_queues .queue-item-count-3 a {
+    color: #e09600;
+    font-weight: bold;
+}

@@ -1,0 +1,43 @@
+.view-advancedqueue-ui .form--inline .filter-group {
+    width: 18%;
+    float: left;
+    margin-right: 1em;
+}
+.view-advancedqueue-ui .form--inline .filter-group .form-item {
+    float: none;
+}
+
+.advancedqueue-status--1,
+.advancedqueue-status-0,
+.advancedqueue-status-1,
+.advancedqueue-status-2,
+.advancedqueue-status-3 {
+    display: inline-block;
+    height: 12px;
+    line-height: 12px;
+    padding-left: 16px;
+    width: 6em;
+    background-position: 0% 50%;
+    background-repeat: no-repeat;
+}
+
+.advancedqueue-status--1 {
+    background-image: url('../images/queued.gif');
+}
+.advancedqueue-status-0 {
+    background-image: url('../images/processing.gif');
+}
+.advancedqueue-status-1 {
+    background-image: url('../images/processed.png');
+    color: #336633;
+    font-weight: bold;
+}
+.advancedqueue-status-2 {
+    background-image: url('../images/failed.png');
+    color: #ff0000;
+    font-weight: bold;
+}
+.advancedqueue-status-3 {
+    background-image: url('../images/retry.png');
+    color: #e09600;
+}
