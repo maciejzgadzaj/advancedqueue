@@ -5,3 +5,7 @@ services:
   plugin.manager.queue_worker:
     class: Drupal\advancedqueue\Queue\AdvancedQueueWorkerManager
     parent: default_plugin_manager
+  cron:
+    class: Drupal\advancedqueue\AdvancedQueueCron
+    arguments: ['@module_handler', '@lock', '@queue', '@state', '@account_switcher', '@logger.channel.cron', '@plugin.manager.queue_worker']
+    lazy: true
