@@ -29,3 +29,56 @@ advancedqueue_ui.queue.devel:
     _title_callback: '\Drupal\advancedqueue_ui\Controller\AdminController::queueItemsTitle'
   requirements:
     _permission: 'access devel information'
+
+# Queue operations.
+
+advancedqueue_ui.queue_process_confirm:
+  path: '/admin/structure/queues/{queue_name}/process'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\QueueProcess'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.queue_delete_confirm:
+  path: '/admin/structure/queues/{queue_name}/delete'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\QueueDelete'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+# Bulk actions.
+
+advancedqueue_ui.bulk_process_confirm:
+  path: '/admin/structure/queues/all/process'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkProcess'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_release_confirm:
+  path: '/admin/structure/queues/all/release'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkRelease'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_requeue_confirm:
+  path: '/admin/structure/queues/all/requeue'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkRequeue'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_reset_attempt_counter_confirm:
+  path: '/admin/structure/queues/all/reset-attempt-counter'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkResetAttemptCounter'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'
+
+advancedqueue_ui.bulk_delete_confirm:
+  path: '/admin/structure/queues/all/delete'
+  defaults:
+    _form: '\Drupal\advancedqueue_ui\Form\BulkDelete'
+  requirements:
+    _permission: 'advancedqueue_ui manage queues'

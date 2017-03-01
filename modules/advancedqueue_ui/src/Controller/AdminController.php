@@ -3,6 +3,7 @@
 namespace Drupal\advancedqueue_ui\Controller;
 
 use Drupal\advancedqueue\Entity\AdvancedQueueItem;
+use Drupal\advancedqueue\Queue\AdvancedQueueWorkerManager;
 use Drupal\Core\Controller\ControllerBase;
 use Drupal\Core\Link;
 use Drupal\Core\Url;
@@ -77,9 +78,10 @@ class AdminController extends ControllerBase {
         // Build items count columns.
         $queue_item_count = 0;
         foreach (array_keys(AdvancedQueueItem::getStatusOptions()) as $status_code) {
+          $result[$status_code] = $queue->numberOfItems($status_code);
           $url = Url::fromUri('internal:/admin/structure/queues/' . $queue_name, ['query' => ['status[]' => $status_code]]);
           $row[] = [
-            'data' => Link::fromTextAndUrl($queue->numberOfItems($status_code), $url),
+            'data' => Link::fromTextAndUrl($result[$status_code], $url),
             'class' => 'queue-item-count-' . $status_code,
           ];
           $queue_item_count += !empty($result[$status_code]) ? $result[$status_code] : 0;
@@ -90,10 +92,67 @@ class AdminController extends ControllerBase {
           }
         }
 
-        // @TODO: Build queue operations column.
-        $row[] = '';
+        // Build queue operations column.
+        $operations = [
+          '#type' => 'operations',
+          '#links' => [],
+        ];
+        if (\Drupal::currentUser()->hasPermission('advancedqueue_admin manage queues')) {
+          if ((!empty($result[AdvancedQueueItem::STATUS_QUEUED]) || !empty($result[AdvancedQueueItem::STATUS_FAILURE_RETRY])) && $group_name != AdvancedQueueWorkerManager::UNGROUPED) {
+            $operations['#links'][] = [
+              'title' => $this->t('Process'),
+              'url' => Url::fromRoute('advancedqueue_ui.queue_process_confirm', ['queue_name' => $queue_name], ['query' => $this->getDestinationArray()]),
+            ];
+          }
+          if (!empty($queue_item_count)) {
+            $operations['#links'][] = [
+              'title' => $this->t('Delete'),
+              'url' => Url::fromRoute('advancedqueue_ui.queue_delete_confirm', ['queue_name' => $queue_name], ['query' => $this->getDestinationArray()]),
+            ];
+          }
+        }
+        $row[] = [
+          'data' => $operations,
+          'class' => 'queue-operations',
+        ];
 
         $rows[] = $row;
+      }
+
+      // Build group operations column.
+      if (count($queues_by_group) > 1 && !empty($group_item_count)) {
+        $rows[$group_name][0]['colspan'] = count($advancedqueue_statuses) + 2;
+
+        $operations = [
+          '#type' => 'operations',
+          '#links' => [],
+        ];
+        if (\Drupal::currentUser()->hasPermission('advancedqueue_admin manage queues')) {
+          // Do not show 'Process' link for 'Undefined' group, as we don't know
+          // what the worker function for its queues is, so we can't process them.
+          if (!empty($group_unprocessed_item_count) && $group_name != 'Undefined') {
+            $operations['#links'][] = [
+              'title' => $this->t('Process'),
+              'url' => Url::fromRoute('advancedqueue_ui.queue_process_confirm', ['queue_name' => 'group:' . $group_name], [
+                'query' => $this->getDestinationArray(),
+                'attributes' => ['title' => t('Process all unprocessed items in this group')],
+              ]),
+            ];
+          }
+          if (!empty($group_item_count)) {
+            $operations['#links'][] = [
+              'title' => $this->t('Delete'),
+              'url' => Url::fromRoute('advancedqueue_ui.queue_delete_confirm', ['queue_name' => 'group:' . $group_name], [
+                'query' => $this->getDestinationArray(),
+                'attributes' => ['title' => t('Delete all items from this group')],
+              ]),
+            ];
+          }
+        }
+        $rows[$group_name][] = [
+          'data' => $operations,
+          'class' => 'group-operations',
+        ];
       }
 
     }

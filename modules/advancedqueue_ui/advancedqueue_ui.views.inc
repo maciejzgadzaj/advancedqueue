@@ -24,6 +24,28 @@ function advancedqueue_ui_views_pre_render(ViewExecutable $view) {
 }
 
 /**
+ * Implements hook_form_alter().
+ */
+function advancedqueue_ui_form_alter(&$form, \Drupal\Core\Form\FormStateInterface $form_state, $form_id) {
+  // Alter the bulk operations form for Advanced Queue UI view.
+  if (strpos($form_id, 'views_form_advancedqueue_ui_default_') === 0) {
+    // Get weights of all advancedqueue_item type action plugins.
+    $weights = [];
+    /** @var \Drupal\Core\Action\ActionManager $manager */
+    foreach (\Drupal::service('plugin.manager.action')->getDefinitionsByType('advancedqueue_item') as $action_definition) {
+      $weights[] = $action_definition['weight'];
+    }
+
+    // Sort Action form element options by plugin weights.
+    // Form element could not exist if there are no items in the queue.
+    if (!empty($form['header']['bulk_form']['action']['#options'])) {
+      $action_options = &$form['header']['bulk_form']['action']['#options'];
+      array_multisort($weights, SORT_ASC, SORT_NUMERIC, $action_options);
+    }
+  }
+}
+
+/**
  * Implements hook_form_FORM_ID_alter() for views_exposed_form.
  */
 function advancedqueue_ui_form_views_exposed_form_alter(&$form, FormStateInterface $form_state, $form_id) {

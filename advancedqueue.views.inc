@@ -1,6 +1,23 @@
 <?php
 
 /**
+ * Implements hook_views_data().
+ */
+function advancedqueue_views_data() {
+  $data = [];
+
+  $data['advancedqueue']['bulk_form'] = [
+    'title' => t('Bulk update'),
+    'help' => t('Add a form element that lets you run operations on multiple queue items.'),
+    'field' => [
+      'id' => 'advancedqueue_bulk_form',
+    ],
+  ];
+
+  return $data;
+}
+
+/**
  * Implements hook_views_data_alter().
  */
 function advancedqueue_views_data_alter(array &$data) {
