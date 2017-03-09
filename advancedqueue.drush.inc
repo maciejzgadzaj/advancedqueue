@@ -246,6 +246,9 @@ function drush_advancedqueue_queue_process($queues = NULL) {
 
   drush_log(dt('Starting processing loop.'));
 
+  pcntl_signal(SIGTERM, '_drush_advancedqueue_stop_command');
+  pcntl_signal(SIGINT, '_drush_advancedqueue_stop_command');
+
   // @TODO: Add SIGTERM handling.
 
   while (!$end || time() < $end) {
@@ -260,9 +263,18 @@ function drush_advancedqueue_queue_process($queues = NULL) {
       }
 
     }
+    if (!empty($GLOBALS['should_stop'])) {
+      drush_log(dt('User abort: existing processing loop.'));
+      exit(1);
+    }
   }
 
   drush_log(dt('Timeout: exiting processing loop.'));
+}
+
+function _drush_advancedqueue_stop_command($signo) {
+  $GLOBALS['should_stop'] = TRUE;
+  drush_log(dt('@signo received, terminating current item processing.', ['@signo' => $signo]));
 }
 
 /**
