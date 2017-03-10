@@ -147,6 +147,8 @@ abstract class BulkConfirmFormBase extends ConfirmFormBase {
   public function submitForm(array &$form, FormStateInterface $form_state) {
     if ($form_state->getValue('confirm') && !empty($this->itemInfo)) {
 
+      // @TODO: Sort $this->itemInfo by "created" date and "item_id".
+
       $batch = [
         'title' => $this->t('Processing items'),
         'operations' => [],

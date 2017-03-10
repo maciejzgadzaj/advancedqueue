@@ -4,6 +4,7 @@ namespace Drupal\advancedqueue\Command;
 
 use Drupal\advancedqueue\Command\AdvancedQueueStyle;
 use Drupal\advancedqueue\Entity\AdvancedQueueItem;
+use Drupal\advancedqueue\Queue\AdvancedQueue;
 use Drupal\Console\Annotations\DrupalCommand;
 use Symfony\Component\Console\Input\InputArgument;
 use Symfony\Component\Console\Input\InputOption;
@@ -58,21 +59,19 @@ class QueueProcessCommand extends CommandBase {
     $output->writeln($this->trans('commands.advancedqueue.queue.process.messages.processing_loop_start'), OutputInterface::VERBOSITY_VERBOSE);
 
     while (!$end || time() < $end) {
-      foreach ($queue_workers as $queue_name => $queue_worker) {
+      // Do not process items queue-by-queue like for example cron does,
+      // instead try to do proper FIFO, and claim them in order of their
+      // "created" date, regardless of the queue they belong to.
+      if ($item = AdvancedQueue::claimItemFIFO()) {
+        $queue_name = $item->name;
+        $output->writeln(sprintf($this->trans('commands.advancedqueue.queue.process.messages.processing_item_start'), $queue_name, $item->item_id, $item->title), OutputInterface::VERBOSITY_VERBOSE);
+
         /** @var \Drupal\advancedqueue\Queue\AdvancedQueue $queue */
-        $queue = $queue_worker->getQueue();
+        $queue = $queue_workers[$queue_name]->getQueue();
+        $queue->processItem($item, $queue_workers[$queue_name], $end);
 
-        // @TODO: Implement proper FIFO.
-        if ($item = $queue->claimItem($queue_worker->getLeaseTime())) {
-          $output->writeln(sprintf($this->trans('commands.advancedqueue.queue.process.messages.processing_item_start'), $queue_name, $item->item_id, $item->title), OutputInterface::VERBOSITY_VERBOSE);
-
-          $queue->processItem($item, $queue_worker, $end);
-
-          $callback = $item->status == AdvancedQueueItem::STATUS_SUCCESS ? 'successLite' : ($item->status == AdvancedQueueItem::STATUS_FAILURE_RETRY ? 'warningLite' : 'errorLite');
-          $io->$callback(sprintf($this->trans('commands.advancedqueue.queue.process.messages.processing_item_end'), $queue_name, $item->item_id, $item->status, AdvancedQueueItem::getStatusLabel($item->status)));
-          continue 2;
-        }
-
+        $callback = $item->status == AdvancedQueueItem::STATUS_SUCCESS ? 'successLite' : ($item->status == AdvancedQueueItem::STATUS_FAILURE_RETRY ? 'warningLite' : 'errorLite');
+        $io->$callback(sprintf($this->trans('commands.advancedqueue.queue.process.messages.processing_item_end'), $queue_name, $item->item_id, $item->status, AdvancedQueueItem::getStatusLabel($item->status)));
       }
     }
 

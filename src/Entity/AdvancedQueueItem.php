@@ -174,7 +174,7 @@ class AdvancedQueueItem extends ContentEntityBase implements AdvancedQueueItemIn
     return $fields;
   }
 
-  public static function loadItems($conditions) {
+  public static function loadItems($conditions, $order_by = []) {
     $query = \Drupal::database()->select('advancedqueue', 'aq')
       ->fields('aq');
     foreach ($conditions as $key => $value) {
@@ -183,8 +183,15 @@ class AdvancedQueueItem extends ContentEntityBase implements AdvancedQueueItemIn
       }
       $query->condition($key, $value, 'IN');
     }
-    $items = $query->orderBy('item_id', 'ASC')
-      ->execute()
+    if (!empty($order_by)) {
+      foreach ($order_by as $field => $direction) {
+        $query->orderBy($field, $direction);
+      }
+    }
+    else {
+      $query->orderBy('item_id', 'ASC');
+    }
+    $items = $query->execute()
       ->fetchAllAssoc('item_id');
 
     foreach ($items as $item) {

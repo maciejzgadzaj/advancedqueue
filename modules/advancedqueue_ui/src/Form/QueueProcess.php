@@ -22,13 +22,18 @@ class QueueProcess extends BulkProcess {
       }
     }
 
-    return AdvancedQueueItem::loadItems([
+    $conditions = [
       'name' => $this->queueName,
       'status' => [
         AdvancedQueueItem::STATUS_QUEUED,
         AdvancedQueueItem::STATUS_FAILURE_RETRY,
       ],
-    ]);
+    ];
+    $order_by = [
+      'created' => 'ASC',
+      'item_id' => 'ASC',
+    ];
+    return AdvancedQueueItem::loadItems($conditions, $order_by);
   }
 
 }

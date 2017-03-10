@@ -208,6 +208,66 @@ class AdvancedQueue implements ReliableQueueInterface, QueueGarbageCollectionInt
     }
   }
 
+  public static function claimItemFIFO($lease_time = NULL) {
+    // Claim an item by updating its expire field.
+    while (TRUE) {
+      $query = \Drupal::database()->select(static::TABLE_NAME, 'aq')
+        ->fields('aq')
+        ->condition('aq.status', [
+          AdvancedQueueItem::STATUS_QUEUED,
+          AdvancedQueueItem::STATUS_FAILURE_RETRY,
+        ], 'IN')
+        ->condition('aq.created', time(), '<=')
+        ->condition('aq.expire', 0)
+        ->orderBy('aq.created', 'ASC')
+        ->orderBy('aq.item_id', 'ASC');
+      // Allow to claim a specific item.
+      if (!empty($item_id)) {
+        $query->condition('aq.item_id', $item_id);
+      }
+      $item = $query->execute()
+        ->fetchObject();
+
+      if ($item) {
+        // Update the item lease time.
+        // First get default lease time from the queue worker if it was not
+        // provided as function parameter.
+        if (!$lease_time) {
+          /** @var \Drupal\advancedqueue\Queue\AdvancedQueueWorkerManager $queue_worker_manager */
+          $queue_worker_manager = \Drupal::service('plugin.manager.queue_worker');
+          /** @var \Drupal\advancedqueue\Queue\AdvancedQueueWorkerInterface $queue_worker */
+          $queue_worker = $queue_worker_manager->createInstance($item->name);
+
+          $lease_time = $queue_worker->getLeaseTime();
+        }
+
+        // We cannot rely on REQUEST_TIME because items might be claimed by
+        // a single consumer which runs longer than 1 second. If we continue
+        // to use REQUEST_TIME instead of the current time(), we steal time
+        // from the lease, and will tend to reset items before the lease
+        // should really expire.
+        $update = \Drupal::database()->update('advancedqueue')
+          ->fields([
+            'status' => AdvancedQueueItem::STATUS_PROCESSING,
+            'expire' => time() + $lease_time,
+          ])
+          ->condition('item_id', $item->item_id)
+          ->condition('expire', 0);
+
+        // If there are affected rows, this update succeeded.
+        if ($update->execute()) {
+          $item->data = !empty($item->data) ? unserialize($item->data) : [];
+          $item->result = !empty($item->result) ? unserialize($item->result) : [];
+          return $item;
+        }
+      }
+      else {
+        // No items currently available to claim.
+        return FALSE;
+      }
+    }
+  }
+
   /**
    * Handles item processing.
    *

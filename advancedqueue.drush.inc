@@ -317,16 +317,15 @@ function drush_advancedqueue_queue_process($queues = NULL) {
   drush_log(dt('Starting processing loop.'));
 
   while (!$end || time() < $end) {
-    foreach ($queue_workers as $queue_name => $queue_worker) {
+    // Do not process items queue-by-queue like for example cron does,
+    // instead try to do proper FIFO, and claim them in order of their
+    // "created" date, regardless of the queue they belong to.
+    if ($item = AdvancedQueue::claimItemFIFO()) {
+      $queue_name = $item->name;
+
       /** @var \Drupal\advancedqueue\Queue\AdvancedQueue $queue */
-      $queue = $queue_worker->getQueue();
-
-      // @TODO: Implement proper FIFO.
-      if ($item = $queue->claimItem($queue_worker->getLeaseTime())) {
-        $queue->processItem($item, $queue_worker, $end);
-        continue 2;
-      }
-
+      $queue = $queue_workers[$queue_name]->getQueue();
+      $queue->processItem($item, $queue_workers[$queue_name], $end);
     }
   }
 
