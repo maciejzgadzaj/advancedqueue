@@ -19,20 +19,28 @@ An extended queuing module fully backward compatible with and a drop-in replacem
     - option to repeat processing in case of failure with pre-set time delay (based on queue worker definition)
     - suspension of queue processing for a specific time
   
-  * queue item processing events:
-    - `advancedqueue_pre_execute`
-    - `advancedqueue_post_execute`
-  
+  * queue- and item-related events:
+    - `queue.suspend`
+    - `queue.unsuspend`
+    - `item.preprocess`
+    - `item.postprocess`
+    - `item.release`
+    - `item.requeue`
+    - `item.reset`
+    - `item.delete`
+
   * `AdvancedQueueWorkerManager`
-    - support for additional queue worker definition elements (annotations):
+    - support for additional queue worker definition elements (through annotations):
       - `description`
       - `group`
       - `lease.time`
       - `retry.attempts`
       - `retry.delay`
       - `suspend.time`
-      - `execute_hooks.preprocess`
-      - `execute_hooks.postprocess`
+      - `execute_hooks.queue.suspend`
+      - `execute_hooks.queue.unsuspend`
+      - `execute_hooks.item.preprocess`
+      - `execute_hooks.item.postprocess`
       - `delete.when_completed`
       - `delete.hard`
       - `cron.time`
@@ -80,6 +88,6 @@ An extended queuing module fully backward compatible with and a drop-in replacem
 
 ## Installation
 
-To use add the following line to your `settings.php`:
+To use enable at least main `advancedqueue` module and add following line to your `settings.php`:
 
 `$settings['queue_default'] = 'queue.advancedqueue';`

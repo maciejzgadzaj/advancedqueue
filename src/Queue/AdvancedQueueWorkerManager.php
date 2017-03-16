@@ -2,8 +2,10 @@
 
 namespace Drupal\advancedqueue\Queue;
 
+use Drupal\advancedqueue\Event\AdvancedQueueEvents;
+use Drupal\advancedqueue\Event\QueueSuspendEvent;
+use Drupal\advancedqueue\Event\QueueUnsuspendEvent;
 use Drupal\Core\Cache\CacheBackendInterface;
-use Drupal\Core\Datetime\DateFormatter;
 use Drupal\Core\Extension\ModuleHandlerInterface;
 use Drupal\Core\Queue\QueueWorkerManager;
 
@@ -58,13 +60,35 @@ class AdvancedQueueWorkerManager extends QueueWorkerManager {
       // after the queue worker throws SuspendQueueException.
       'time' => 3600,
     ],
-    'execute_hooks' => [
-      // A boolean indicating whether the preprocess hooks should be invoked
-      // before processing a queue item.
-      'preprocess' => TRUE,
-      // A boolean indicating whether the postprocess hooks should be invoked
-      // after processing a queue item.
-      'postprocess' => TRUE,
+    'dispatch_events' => [
+      'queue' => [
+        // A boolean indicating whether the "queue.suspend" event should be
+        // dispatched after suspending queue processing.
+        'suspend' => TRUE,
+        // A boolean indicating whether the "queue.unsuspend" event should be
+        // dispatched after unsuspending queue processing.
+        'unsuspend' => TRUE,
+      ],
+      'item' => [
+        // A boolean indicating whether the "item.preprocess" event should be
+        // dispatched before processing a queue item.
+        'preprocess' => TRUE,
+        // A boolean indicating whether the "item.postprocess" event should be
+        // dispatched after processing a queue item.
+        'postprocess' => TRUE,
+        // A boolean indicating whether the "item.release" event should be
+        // dispatched after releasing a queue item.
+        'release' => TRUE,
+        // A boolean indicating whether the "item.requeue" event should be
+        // dispatched after requeueing a queue item.
+        'requeue' => TRUE,
+        // A boolean indicating whether the "item.reset" event should be
+        // dispatched after resetting a queue item attempt counter.
+        'reset' => TRUE,
+        // A boolean indicating whether the "item.delete" event should be
+        // dispatched after deleting a queue item.
+        'delete' => TRUE,
+      ],
     ],
     'delete' => [
       // A boolean indicating whether a queue item should be "deleted"
@@ -283,17 +307,16 @@ class AdvancedQueueWorkerManager extends QueueWorkerManager {
    *
    * @param string $plugin_id
    *   A queue worker plugin id.
-   * @param string $type
-   *   A string indicating which hook type should be checked for execution.
-   *   Possible values are "preprocess" and "postprocess".
+   * @param string $event_name
+   *   A string indicating which event should be dispatched.
    *
    * @return bool
-   *   A boolean indicating whether the processing hooks of provided type
-   *   should be executed.
+   *   A boolean indicating whether the provided event should be dispatched.
    */
-  public function executeHooks($plugin_id, $type) {
+  public function dispatchEvent($plugin_id, $event_name) {
     $plugin_definition = $this->getDefinition($plugin_id);
-    return $plugin_definition['execute_hooks'][$type];
+    list($group, $operation) = explode('.', $event_name);
+    return $plugin_definition['dispatch_events'][$group][$operation];
   }
 
   /**
@@ -372,6 +395,12 @@ class AdvancedQueueWorkerManager extends QueueWorkerManager {
 
     $this->state->set('advancedqueue.suspended_queues', $suspended_queues);
 
+    // Dispatch "queue.suspend" event.
+    if ($this->dispatchEvent($queue_name, AdvancedQueueEvents::QUEUE_SUSPEND)) {
+      $event = new QueueSuspendEvent($queue_name, $suspend_time);
+      $this->eventDispatcher->dispatch(AdvancedQueueEvents::QUEUE_SUSPEND, $event);
+    }
+
     return $suspended_queues[$queue_name];
   }
 
@@ -387,6 +416,12 @@ class AdvancedQueueWorkerManager extends QueueWorkerManager {
     if (isset($suspended_queues[$queue_name])) {
       unset($suspended_queues[$queue_name]);
       $this->state->set('advancedqueue.suspended_queues', $suspended_queues);
+
+      // Dispatch "queue.unsuspend" event.
+      if ($this->dispatchEvent($queue_name, AdvancedQueueEvents::QUEUE_UNSUSPEND)) {
+        $event = new QueueUnsuspendEvent($queue_name);
+        $this->eventDispatcher->dispatch(AdvancedQueueEvents::QUEUE_UNSUSPEND, $event);
+      }
     }
   }
 

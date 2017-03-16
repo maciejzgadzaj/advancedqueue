@@ -2,11 +2,10 @@
 
 namespace Drupal\advancedqueue\Event;
 
-use Drupal\advancedqueue\Entity\AdvancedQueueItemInterface;
 use Symfony\Component\EventDispatcher\Event;
 
 /**
- * Event that is fired before processing a queue item.
+ * Base methods for Advanced Queue events.
  *
  * @package Drupal\advancedqueue
  */
@@ -20,43 +19,23 @@ class AdvancedQueueEventBase extends Event {
   protected $queueName;
 
   /**
-   * The item about to be processed.
-   *
-   * @var object
-   */
-  protected $item;
-
-  /**
    * AdvancedQueueEventBase constructor.
    *
    * @param string $queue_name
-   *   The queue name the item to be processed belongs to.
-   * @param object $item
-   *   The item about to be processed.
+   *   A queue name the event relates to.
    */
-  public function __construct($queue_name, $item) {
+  public function __construct($queue_name) {
     $this->queueName = $queue_name;
-    $this->item = $item;
   }
 
   /**
-   * Returns the queue name the item belongs to.
+   * Returns name of the queue the event relates to.
    *
    * @return string
-   *   The queue name the item to be processed belongs to.
+   *   A queue name the event relates to.
    */
   public function getQueueName() {
     return $this->queueName;
-  }
-
-  /**
-   * Returns the item being processed.
-   *
-   * @return object
-   *   The item about to be processed.
-   */
-  public function getItem() {
-    return $this->item;
   }
 
 }

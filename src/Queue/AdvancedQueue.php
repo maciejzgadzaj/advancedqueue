@@ -2,8 +2,9 @@
 
 namespace Drupal\advancedqueue\Queue;
 
-use Drupal\advancedqueue\Event\PostExecuteEvent;
-use Drupal\advancedqueue\Event\PreExecuteEvent;
+use Drupal\advancedqueue\Event\AdvancedQueueEvents;
+use Drupal\advancedqueue\Event\ItemPostProcessEvent;
+use Drupal\advancedqueue\Event\ItemPreProcessEvent;
 use Drupal\advancedqueue\Entity\AdvancedQueueItem;
 use Drupal\Component\Utility\Unicode;
 use Drupal\Core\Database\Connection;
@@ -271,10 +272,10 @@ class AdvancedQueue implements ReliableQueueInterface, QueueGarbageCollectionInt
    *   A timestamp indicating when the processing should end at the latest.
    */
   public function processItem($item, $end_time) {
-    // Invoke pre-execute hooks.
-    if ($this->queueManager->executeHooks($item->name, 'preprocess')) {
-      $event = new PreExecuteEvent($this->name, $item);
-      $this->eventDispatcher->dispatch(PreExecuteEvent::EVENT_NAME, $event);
+    // Dispatch "item.preprocess" event.
+    if ($this->queueManager->dispatchEvent($item->name, AdvancedQueueEvents::ITEM_PREPROCESS)) {
+      $event = new ItemPreProcessEvent($this->name, $item);
+      $this->eventDispatcher->dispatch(AdvancedQueueEvents::ITEM_PREPROCESS, $event);
     }
 
     $params = [
@@ -337,11 +338,12 @@ class AdvancedQueue implements ReliableQueueInterface, QueueGarbageCollectionInt
       $item->result['return'] = $e->getMessage();
     }
 
-    // Once we have a result, invoke the post-execute hooks. Adventurers can use
-    // this to override the result of processing (stored on the $item object).
-    if ($this->queueManager->executeHooks($item->name, 'postprocess')) {
-      $event = new PostExecuteEvent($item->name, $item);
-      $this->eventDispatcher->dispatch(PostExecuteEvent::EVENT_NAME, $event);
+    // Once we have a result, dispatch "item.postprocess" event.
+    // Adventurers can use this to override the result of processing
+    // (stored on the $item object).
+    if ($this->queueManager->dispatchEvent($item->name, AdvancedQueueEvents::ITEM_POSTPROCESS)) {
+      $event = new ItemPostProcessEvent($item->name, $item);
+      $this->eventDispatcher->dispatch(AdvancedQueueEvents::ITEM_POSTPROCESS, $event);
     }
 
     $params['@status_code'] = $item->status;
