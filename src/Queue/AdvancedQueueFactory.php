@@ -28,6 +28,13 @@ class AdvancedQueueFactory extends QueueDatabaseFactory {
   protected $queueManager;
 
   /**
+   * The queue backend plugin manager.
+   *
+   * @var \Drupal\advancedqueue\Queue\AdvancedQueueBackendManager
+   */
+  protected $backendManager;
+
+  /**
    * Constructs this factory object.
    *
    * @param \Drupal\Core\Database\Connection $connection
@@ -36,11 +43,14 @@ class AdvancedQueueFactory extends QueueDatabaseFactory {
    *   The event dispatcher.
    * @param \Drupal\advancedqueue\Queue\AdvancedQueueWorkerManager $queue_manager
    *   The queue worker plugin manager.
+   * @param \Drupal\advancedqueue\Queue\AdvancedQueueBackendManager $backend_manager
+   *   The queue backend plugin manager.
    */
-  public function __construct(Connection $connection, EventDispatcherInterface $event_dispatcher, AdvancedQueueWorkerManager $queue_manager) {
+  public function __construct(Connection $connection, EventDispatcherInterface $event_dispatcher, AdvancedQueueWorkerManager $queue_manager, AdvancedQueueBackendManager $backend_manager) {
     parent::__construct($connection);
     $this->eventDispatcher = $event_dispatcher;
     $this->queueManager = $queue_manager;
+    $this->backendManager = $backend_manager;
   }
 
   /**
@@ -56,7 +66,7 @@ class AdvancedQueueFactory extends QueueDatabaseFactory {
     $queues = &drupal_static(__FUNCTION__);
 
     if (!isset($queues[$queue_name])) {
-      $queues[$queue_name] = new AdvancedQueue($queue_name, $this->connection, $this->eventDispatcher, $this->queueManager);
+      $queues[$queue_name] = new AdvancedQueue($queue_name, $this->connection, $this->eventDispatcher, $this->queueManager, $this->backendManager);
     }
 
     return $queues[$queue_name];

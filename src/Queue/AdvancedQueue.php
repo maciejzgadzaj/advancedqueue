@@ -68,6 +68,13 @@ class AdvancedQueue implements ReliableQueueInterface, QueueGarbageCollectionInt
   protected $queueManager;
 
   /**
+   * The queue backend plugin manager.
+   *
+   * @var \Drupal\advancedqueue\Queue\AdvancedQueueBackendManager
+   */
+  protected $backendManager;
+
+  /**
    * Constructs a \Drupal\advancedqueue\Queue\AdvancedQueue object.
    *
    * @param string $name
@@ -78,12 +85,15 @@ class AdvancedQueue implements ReliableQueueInterface, QueueGarbageCollectionInt
    *   The event dispatcher.
    * @param \Drupal\advancedqueue\Queue\AdvancedQueueWorkerManager $queue_manager
    *   The queue worker plugin manager.
+   * @param \Drupal\advancedqueue\Queue\AdvancedQueueBackendManager $backend_manager
+   *   The queue backend plugin manager.
    */
-  public function __construct($name, Connection $connection, EventDispatcherInterface $event_dispatcher, AdvancedQueueWorkerManager $queue_manager) {
+  public function __construct($name, Connection $connection, EventDispatcherInterface $event_dispatcher, AdvancedQueueWorkerManager $queue_manager, AdvancedQueueBackendManager $backend_manager) {
     $this->name = $name;
     $this->connection = $connection;
     $this->eventDispatcher = $event_dispatcher;
     $this->queueManager = $queue_manager;
+    $this->backendManager = $backend_manager;
   }
 
   /**

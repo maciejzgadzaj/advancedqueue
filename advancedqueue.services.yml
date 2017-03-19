@@ -1,7 +1,11 @@
 services:
   queue.advancedqueue:
     class: Drupal\advancedqueue\Queue\AdvancedQueueFactory
-    arguments: ['@database', '@event_dispatcher', '@plugin.manager.queue_worker']
+    arguments: ['@database', '@event_dispatcher', '@plugin.manager.queue_worker', '@plugin.manager.advancedqueue_backend']
+  plugin.manager.advancedqueue_backend:
+    class: Drupal\advancedqueue\Queue\AdvancedQueueBackendManager
+    arguments: ['@database']
+    parent: default_plugin_manager
   plugin.manager.queue_worker:
     class: Drupal\advancedqueue\Queue\AdvancedQueueWorkerManager
     parent: default_plugin_manager
